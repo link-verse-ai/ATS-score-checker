@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: app
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+    plan: free # Change as needed (free, starter, etc.)
+    
+  - type: redis
+    name: redis
+    ipAllowList: # required
+      - source: 0.0.0.0/0
+        description: everywhere
+    plan: free # Change as needed (free, starter, etc.) 
